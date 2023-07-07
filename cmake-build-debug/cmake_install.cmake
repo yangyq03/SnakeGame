@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/Administrator/CLionProjects/SnakeGame
+# Install script for directory: E:/C++/snake-game
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/MyProject")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/SnakeGame")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,7 +34,7 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/Program Files/JetBrains/CLion 2023.1.4/bin/mingw/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "D:/JetBrains/CLion 2022.2/bin/mingw/bin/objdump.exe")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/Administrator/CLionProjects/SnakeGame/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "E:/C++/snake-game/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

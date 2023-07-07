@@ -2,9 +2,16 @@
 #define SNAKEGAME_POINT_H
 
 class Point {
+
 public:
 
-    Point(int x, int y) {};
+    Point();
+
+    Point(int x, int y);
+
+    void setX(int m_x);
+
+    void setY(int m_y);
 
     int getX() const;
 
@@ -13,6 +20,7 @@ public:
 private:
 
     int x;
+
     int y;
 
 };

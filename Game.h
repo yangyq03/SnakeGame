@@ -1,41 +1,52 @@
-#ifndef MYPROJECT_GAME_H
-#define MYPROJECT_GAME_H
+#ifndef SNAKEGAME_GAME_H
+#define SNAKEGAME_GAME_H
 
+#include <vector>
 #include "Snake.h"
 #include "Food.h"
 
 class Game {
+
 public:
 
-    Game() {
-        //当创建Game对象时，就开始调用initGame函数初始化游戏
-        initGame();
-    }
+    Game(const int &width, const int &height);
 
-    //初始化游戏
-    void initGame();
+    //初始化
+    void init();
 
-    //处理用户的键盘输入情况以改变蛇的移动方向
-    void processInput();
-
-    //用户改变方向之后，更新游戏
-    void updateGame();
+    //游戏中…
+    bool gaming();
 
     //渲染游戏界面
     void renderGame();
 
-    //检查蛇是否碰撞到墙
-    bool checkCollision();
+    //处理用户的键盘输入情况并改变贪吃蛇的移动方向
+    void processInput();
+
+    //更新贪吃蛇的位置和移动方向
+    void updateGame();
 
 private:
 
-    int width = 100;//窗口的宽度
-    int heigth = 100;//窗口的高度
-    Snake snake;//蛇
-    Food food;//食物
-    bool isGameOver = false;//游戏是否结束
+    //窗口的高度
+    int height = 0;
+
+    //窗口的宽度
+    int width = 0;
+
+    //用二位数组模拟贪吃蛇游戏的区域
+    std::vector<std::vector<char>> *gameZone;
+
+    //贪吃蛇
+    Snake snake;
+
+    //食物
+    Food food;
+
+    //游戏是否结束的一个标志变量
+    bool isGameOver = false;
 
 };
 
 
-#endif //MYPROJECT_GAME_H
+#endif //SNAKEGAME_GAME_H

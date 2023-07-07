@@ -1,10 +1,24 @@
-#ifndef MYPROJECT_FOOD_H
-#define MYPROJECT_FOOD_H
+#ifndef SNAKEGAME_FOOD_H
+#define SNAKEGAME_FOOD_H
 
+#include "Point.h"
 
 class Food {
+
+public:
+
+    Food();
+
+    explicit Food(Point point);
+
+    //更新食物位置
+    void generateNewPosition();
+
+private:
+
+    Point position;
 
 };
 
 
-#endif //MYPROJECT_FOOD_H
+#endif //SNAKEGAME_FOOD_H
