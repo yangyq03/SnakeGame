@@ -3,8 +3,9 @@
 
 #include <list>
 #include "Point.h"
+#include "Food.h"
 
-//璐悆铔囩殑鍥涗釜绉诲姩鏂瑰悜
+//贪吃蛇的四个移动方向
 enum Direction {
     UP,
     DOWN,
@@ -18,24 +19,24 @@ public:
 
     Snake();
 
-    //杩斿洖浣嶇疆鐐归泦body
-    std::list<Point> getBody();
+    //返回位置点集body
+    std::list<Point> getBody() const;
 
-    //璐悆铔囩殑绉诲姩
-    void move();
+    //贪吃蛇的移动
+    int move(Food &food, int width, int height);
 
-    //鏀瑰彉璐悆铔囩Щ鍔ㄧ殑鏂瑰悜
+    //改变贪吃蛇移动的方向
     void changeDirection(Direction dir);
 
-    //璐悆铔囨槸鍚︽挒鍒板
+    //贪吃蛇是否撞到墙
     bool checkCollision(int weigh, int height);
 
 private:
 
-    //璐悆铔囩殑韬綋锛岀敤list鍒楄〃琛ㄧず
+    //贪吃蛇的身体，用list列表表示
     std::list<Point> body;
 
-    //绉诲姩鏂瑰悜
+    //移动方向
     Direction direction;
 
 };

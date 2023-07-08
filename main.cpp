@@ -2,18 +2,20 @@
 #include <windows.h>
 #include "Game.h"
 
-//çª—å£çš„é«˜åº¦
-int height = 20;
-//çª—å£çš„å®½åº¦
-int width = 30;
+//´°¿ÚµÄ¸ß¶È
+int height;
+//´°¿ÚµÄ¿í¶È
+int width;
 
 int main() {
-    //è´ªåƒè›‡ï¼Œå¯åŠ¨ï¼ï¼
+    std::cout << "·Ö±ğÊäÈëÓÎÏ·ÇøÓòµÄ¿íºÍ¸ßÒÔ¿ªÊ¼ÓÎÏ·£º£¨¿í¶È²»Ó¦Ğ¡ÓÚ2£©" << std::endl;
+    std::cin >> width >> height;
+    //Ì°³ÔÉß£¬Æô¶¯£¡£¡
     Game game(width, height);
     while (game.gaming()) {
-        //åˆ·æ–°æ—¶é—´çš„æ¯«ç§’å€¼
-        Sleep(200);
+        //Ë¢ĞÂÊ±¼äµÄºÁÃëÖµ
+        Sleep(100);
     }
-    std::cout << "æ¸¸æˆç»“æŸï¼" << std::endl;
+    system("pause");
     return 0;
 }

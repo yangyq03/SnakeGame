@@ -1,7 +1,7 @@
 #include "Snake.h"
 
 Snake::Snake() {
-    //åˆå§‹åŒ–è´ªåƒè›‡åˆšå¼€å§‹çš„çŠ¶æ€
+    //Ì°³ÔÉß³õÊ¼×´Ì¬
     Point point(1, 1);
     body.push_back(point);
     point.setY(2);
@@ -9,58 +9,93 @@ Snake::Snake() {
     direction = RIGHT;
 }
 
-std::list<Point> Snake::getBody() {
+std::list<Point> Snake::getBody() const {
     return body;
 }
 
-void Snake::move() {
-    for (auto it = body.begin(); it != body.end(); ++it) {
-        if (it == std::prev(body.end())) {
-            //æ”¹å˜å¤´éƒ¨
-            switch (direction) {
-                case UP:
-                    //å‘ä¸Šç§»ï¼ŒX-1ï¼ŒYä¸å˜
-                    it->setX(it->getX() - 1);
-                    break;
-                case DOWN:
-                    //å‘ä¸‹ç§»ï¼ŒX+1ï¼ŒYä¸å˜
-                    it->setX(it->getX() + 1);
-                    break;
-                case LEFT:
-                    //å‘å·¦ç§»ï¼ŒY-1ï¼ŒXä¸å˜
-                    it->setY(it->getY() - 1);
-                    break;
-                case RIGHT:
-                    //å‘å³ç§»ï¼ŒY+1ï¼ŒXä¸å˜
-                    it->setY(it->getY() + 1);
-                    break;
+int Snake::move(Food &food, int width, int height) {
+    const std::list<Point>::iterator &headPoint = std::prev(body.end());
+    //Ì°³ÔÉß³Ôµ½ÁËÊ³Îï
+    if (headPoint->getX() == food.getPosition().getX() &&
+        headPoint->getY() == food.getPosition().getY()) {
+        switch (direction) {
+            case UP:
+                //ÏòÉÏÒÆ£¬X-1£¬Y²»±ä
+                body.emplace_back(headPoint->getX() - 1, headPoint->getY());
+                break;
+            case DOWN:
+                //ÏòÏÂÒÆ£¬X+1£¬Y²»±ä
+                body.emplace_back(headPoint->getX() + 1, headPoint->getY());
+                break;
+            case LEFT:
+                //Ïò×óÒÆ£¬Y-1£¬X²»±ä
+                body.emplace_back(headPoint->getX(), headPoint->getY() - 1);
+                break;
+            case RIGHT:
+                //ÏòÓÒÒÆ£¬Y+1£¬X²»±ä
+                body.emplace_back(headPoint->getX(), headPoint->getY() + 1);
+                break;
+        }
+        //Éú³ÉÏÂÒ»¸öÊ³Îï
+        food.generateNewPosition(body, width, height);
+    } else {
+        for (auto it = body.begin(); it != body.end(); ++it) {
+            if (it == headPoint) {
+                //¸Ä±äÍ·²¿
+                switch (direction) {
+                    case UP:
+                        //ÏòÉÏÒÆ£¬X-1£¬Y²»±ä
+                        it->setX(it->getX() - 1);
+                        break;
+                    case DOWN:
+                        //ÏòÏÂÒÆ£¬X+1£¬Y²»±ä
+                        it->setX(it->getX() + 1);
+                        break;
+                    case LEFT:
+                        //Ïò×óÒÆ£¬Y-1£¬X²»±ä
+                        it->setY(it->getY() - 1);
+                        break;
+                    case RIGHT:
+                        //ÏòÓÒÒÆ£¬Y+1£¬X²»±ä
+                        it->setY(it->getY() + 1);
+                        break;
+                }
+            } else {
+                //²»ÊÇÍ·²¿µÄ¾ÍÒÀ´Î±ä³ÉÇ°Ò»¸öµÄx,yÖµ
+                const Point &nextPoint = *std::next(it);
+                it->setX(nextPoint.getX());
+                it->setY(nextPoint.getY());
             }
-        } else {
-            //ä¸æ˜¯å¤´éƒ¨çš„å°±ä¾æ¬¡å˜æˆå‰ä¸€ä¸ªçš„x,yå€¼
-            const Point &nextPoint = *std::next(it);
-            (*it).setX(nextPoint.getX());
-            (*it).setY(nextPoint.getY());
+            //Èç¹û×²µ½×Ô¼º£¬ÓÎÏ·Ò²½áÊø
+            if (it == headPoint) {
+                for (auto i = body.begin(); i != std::prev(headPoint); ++i) {
+                    if (it->getX() == i->getX() &&
+                        it->getY() == i->getY()) {
+                        return 1;
+                    }
+                }
+            }
         }
     }
-
+    return 0;
 }
 
 void Snake::changeDirection(Direction dir) {
-    //ä¸èƒ½è®©è´ªåƒè›‡å‘ç›¸åçš„æ–¹å‘ç§»åŠ¨
+    //²»ÄÜÈÃÌ°³ÔÉßÏòÏà·´µÄ·½ÏòÒÆ¶¯
     if ((direction == UP && dir == DOWN) ||
         (direction == DOWN && dir == UP) ||
         (direction == LEFT && dir == RIGHT) ||
         (direction == RIGHT && dir == LEFT) ||
-        direction == dir/*æ–¹å‘ç›¸åŒï¼Œä¸ç”¨ä½œå‡ºæ”¹å˜*/) {
+        direction == dir/*·½ÏòÏàÍ¬£¬²»ÓÃ×÷³ö¸Ä±ä*/) {
         return;
     }
     direction = dir;
 }
 
 bool Snake::checkCollision(int width, int height) {
-    //è·å–è´ªåƒè›‡å¤´éƒ¨çš„åæ ‡
+    //»ñÈ¡Ì°³ÔÉßÍ·²¿µÄ×ø±ê
     const Point &headPoint = body.back();
-    //è´ªåƒè›‡æ˜¯å¦æ’å¢™çš„åˆ¤æ–­é€»è¾‘
+    //Ì°³ÔÉßÊÇ·ñ×²Ç½µÄÅĞ¶ÏÂß¼­
     if ((headPoint.getX() == 1 && direction == UP) ||
         (headPoint.getY() == 1 && direction == LEFT) ||
         (headPoint.getX() == height - 2 && direction == DOWN) ||

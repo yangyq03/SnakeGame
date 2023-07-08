@@ -6,16 +6,17 @@
 Game::Game(const int &WIDTH, const int &HEIGHT) : width(WIDTH),
                                                   height(HEIGHT) {
     gameZone = new std::vector<std::vector<char>>();
-    //åˆ›å»ºå¯¹è±¡çš„æ—¶å€™ï¼Œå¼€å§‹åˆå§‹åŒ–æ¸¸æˆåŒºåŸŸ
+    //´´½¨¶ÔÏóµÄÊ±ºò£¬¿ªÊ¼³õÊ¼»¯ÓÎÏ·ÇøÓòºÍÊÂÎïµÄÎ»ÖÃ
     init();
+
 }
 
 void Game::init() {
-    //åˆå§‹åŒ–æ¸¸æˆåŒºåŸŸ
+    //³õÊ¼»¯ÓÎÏ·ÇøÓò
     for (int i = 0; i < height; ++i) {
         gameZone->push_back(std::vector<char>());
         gameZone->back().resize(width, ' ');
-        //å¢™å£ç”¨'#'å­—ç¬¦è¡¨ç¤º
+        //Ç½±ÚÓÃ'#'×Ö·û±íÊ¾
         for (int j = 0; j < width; ++j) {
             if (i == 0 || i == height - 1 ||
                 j == 0 || j == width - 1) {
@@ -23,10 +24,22 @@ void Game::init() {
             }
         }
     }
+    //³õÊ¼»¯µÚÒ»¸öÊ³ÎïµÄËæ»úÎ»ÖÃ
+    srand(time(nullptr));
+    int randomX, randomY;
+    do {
+        randomX = rand() % height;
+        randomY = rand() % width;
+    } while ((randomX == 1 && randomY == 1) ||
+             (randomX == 1 && randomY == 2) ||
+             (randomX == 0 || randomX == height - 1 ||
+              randomY == 0 || randomY == width - 1));//±£Ö¤µÚÒ»¸öÊ³Îï²»»áÉú³ÉÔÚÌ°³ÔÉß¸Õ¿ªÊ¼µÄÎ»ÖÃÒÔ¼°±ß½ç
+    food.setPosition(Point(randomX, randomY));
 }
 
 bool Game::gaming() {
     if (isGameOver) {
+        std::cout << "ÓÎÏ·½áÊø£¡" << std::endl;
         return false;
     }
     renderGame();
@@ -36,22 +49,27 @@ bool Game::gaming() {
 }
 
 void Game::renderGame() {
-    //æ¸…å±
+    //ÇåÆÁ
     system("cls");
     const std::list<Point> &body = snake.getBody();
+    //Èç¹ûÊÇÌ°³ÔÉßµÄÎ»ÖÃ£¬ÔòÏÔÊ¾ÆäËû×Ö·û£¬´ú±íÌ°³ÔÉßµÄÎ»ÖÃ
+    for (const auto &item: body) {
+        (*gameZone)[item.getX()][item.getY()] = '+';
+    }
+    //´òÓ¡
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
-            //å¦‚æœæ˜¯è´ªåƒè›‡çš„ä½ç½®ï¼Œåˆ™æ˜¾ç¤ºå…¶ä»–å­—ç¬¦ä»£è¡¨è´ªåƒè›‡çš„ä½ç½®
-            int flag = 1;
-            for (const auto &item: body) {
-                if (item.getX() == i && item.getY() == j) {
-                    std::cout << '$';
-                    flag = 0;
-                }
+            if (i == food.getPosition().getX() && j == food.getPosition().getY()) {
+                std::cout << '+';
+                continue;
             }
-            if (flag) std::cout << (*gameZone)[i][j];
+            std::cout << (*gameZone)[i][j];
         }
         std::cout << std::endl;
+    }
+    //ÖØÖÃÓÎÏ·ÇøÓò
+    for (const auto &item: body) {
+        (*gameZone)[item.getX()][item.getY()] = ' ';
     }
 }
 
@@ -60,41 +78,43 @@ void Game::processInput() {
     if (_kbhit()) {
         key = char(_getch());
     }
-    //å¦‚æœé”®å…¥çš„å­—æ¯ä¸ºå¤§å†™ï¼Œåˆ™è½¬æˆå°å†™ï¼Œæ–¹ä¾¿åˆ¤æ–­
+    //Èç¹û¼üÈëµÄ×ÖÄ¸Îª´óĞ´£¬Ôò×ª³ÉĞ¡Ğ´£¬·½±ãÅĞ¶Ï
     if (key >= 'A' && key <= 'Z') key += 32;
     switch (key) {
         case 'w':
-            //å‘ä¸Š
+            //ÏòÉÏ
             snake.changeDirection(UP);
             break;
         case 's':
-            //å‘ä¸‹
+            //ÏòÏÂ
             snake.changeDirection(DOWN);
             break;
         case 'a':
-            //å‘å·¦
+            //Ïò×ó
             snake.changeDirection(LEFT);
             break;
         case 'd':
-            //å‘å³
+            //ÏòÓÒ
             snake.changeDirection(RIGHT);
             break;
         case 'q':
-            //é€€å‡ºæ¸¸æˆ
+            //ÍË³öÓÎÏ·
             isGameOver = true;
             break;
         default:
-            //å¤„ç†å…¶ä»–æŒ‰é”®çš„é€»è¾‘
+            //´¦ÀíÆäËû°´¼üµÄÂß¼­
             break;
     }
 }
 
 void Game::updateGame() {
-    //å¦‚æœè´ªåƒè›‡æ’å¢™ï¼Œæ¸¸æˆå°±ç»“æŸ
+    //×²Ç½£¬ÓÎÏ·½áÊø
     if (snake.checkCollision(width, height)) {
         isGameOver = true;
         return;
     }
-    //æ²¡æ’å¢™å°±æ›´æ–°è´ªåƒè›‡çš„ä½ç½®
-    snake.move();
+    //Ã»×²Ç½¾Í¸üĞÂÌ°³ÔÉßµÄ³¤¶ÈºÍÎ»ÖÃ
+    int state = snake.move(food, width, height);
+    //×²µ½×Ô¼º£¬ÓÎÏ·½áÊø
+    if (state) isGameOver = true;
 }

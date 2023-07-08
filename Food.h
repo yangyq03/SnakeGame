@@ -9,16 +9,17 @@ public:
 
     Food();
 
-    explicit Food(Point point);
+    void setPosition(const Point &pos);
 
-    //鏇存柊椋熺墿浣嶇疆
-    void generateNewPosition();
+    Point getPosition() const;
+
+    //当事物被吃了之后，生成下一个食物的位置
+    void generateNewPosition(const std::list<Point> &body, int width, int height);
 
 private:
 
     Point position;
 
 };
-
 
 #endif //SNAKEGAME_FOOD_H

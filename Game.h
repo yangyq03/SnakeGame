@@ -11,39 +11,39 @@ public:
 
     Game(const int &width, const int &height);
 
-    //åˆå§‹åŒ–
+    //³õÊ¼»¯
     void init();
 
-    //æ¸¸æˆä¸­â€¦
+    //ÓÎÏ·ÖÐ¡­
     bool gaming();
 
-    //æ¸²æŸ“æ¸¸æˆç•Œé¢
+    //äÖÈ¾ÓÎÏ·½çÃæ
     void renderGame();
 
-    //å¤„ç†ç”¨æˆ·çš„é”®ç›˜è¾“å…¥æƒ…å†µå¹¶æ”¹å˜è´ªåƒè›‡çš„ç§»åŠ¨æ–¹å‘
+    //´¦ÀíÓÃ»§µÄ¼üÅÌÊäÈëÇé¿ö²¢¸Ä±äÌ°³ÔÉßµÄÒÆ¶¯·½Ïò
     void processInput();
 
-    //æ›´æ–°è´ªåƒè›‡çš„ä½ç½®å’Œç§»åŠ¨æ–¹å‘
+    //¸üÐÂÌ°³ÔÉßµÄ³¤¶È¡¢Î»ÖÃÒÔ¼°ÒÆ¶¯·½ÏòµÈÊôÐÔ
     void updateGame();
 
 private:
 
-    //çª—å£çš„é«˜åº¦
+    //´°¿ÚµÄ¸ß¶È
     int height = 0;
 
-    //çª—å£çš„å®½åº¦
+    //´°¿ÚµÄ¿í¶È
     int width = 0;
 
-    //ç”¨äºŒä½æ•°ç»„æ¨¡æ‹Ÿè´ªåƒè›‡æ¸¸æˆçš„åŒºåŸŸ
+    //ÓÃ¶þÎ»Êý×éÄ£ÄâÌ°³ÔÉßÓÎÏ·µÄÇøÓò
     std::vector<std::vector<char>> *gameZone;
 
-    //è´ªåƒè›‡
+    //Ì°³ÔÉß
     Snake snake;
 
-    //é£Ÿç‰©
+    //Ê³Îï
     Food food;
 
-    //æ¸¸æˆæ˜¯å¦ç»“æŸçš„ä¸€ä¸ªæ ‡å¿—å˜é‡
+    //ÓÎÏ·ÊÇ·ñ½áÊøµÄÒ»¸ö±êÖ¾±äÁ¿
     bool isGameOver = false;
 
 };
