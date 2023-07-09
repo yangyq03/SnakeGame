@@ -34,7 +34,7 @@ private:
     //窗口的宽度
     int width = 0;
 
-    //用二位数组模拟贪吃蛇游戏的区域
+    //用二位数组模拟贪吃蛇游戏的游戏区域
     std::vector<std::vector<char>> *gameZone;
 
     //贪吃蛇

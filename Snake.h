@@ -33,10 +33,10 @@ public:
 
 private:
 
-    //贪吃蛇的身体，用list列表表示
+    //贪吃蛇的身体，用list列表实现
     std::list<Point> body;
 
-    //移动方向
+    //贪吃蛇移动的方向
     Direction direction;
 
 };

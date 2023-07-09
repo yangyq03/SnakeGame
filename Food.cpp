@@ -3,8 +3,6 @@
 #include <cstdlib>
 #include "Food.h"
 
-Food::Food() {}
-
 void Food::setPosition(const Point &pos) {
     this->position = pos;
 }

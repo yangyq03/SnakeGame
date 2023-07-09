@@ -15,7 +15,7 @@ std::list<Point> Snake::getBody() const {
 
 int Snake::move(Food &food, int width, int height) {
     const std::list<Point>::iterator &headPoint = std::prev(body.end());
-    //贪吃蛇吃到了食物
+    //贪吃蛇吃到了食物，自身长度+1，位置根据方向而定
     if (headPoint->getX() == food.getPosition().getX() &&
         headPoint->getY() == food.getPosition().getY()) {
         switch (direction) {
@@ -41,7 +41,7 @@ int Snake::move(Food &food, int width, int height) {
     } else {
         for (auto it = body.begin(); it != body.end(); ++it) {
             if (it == headPoint) {
-                //改变头部
+                //更新头部位置
                 switch (direction) {
                     case UP:
                         //向上移，X-1，Y不变
@@ -61,12 +61,12 @@ int Snake::move(Food &food, int width, int height) {
                         break;
                 }
             } else {
-                //不是头部的就依次变成前一个的x,y值
+                //非头部的位置依次更新为前一个的x,y值
                 const Point &nextPoint = *std::next(it);
                 it->setX(nextPoint.getX());
                 it->setY(nextPoint.getY());
             }
-            //如果撞到自己，游戏也结束
+            //如果撞到自己，游戏结束
             if (it == headPoint) {
                 for (auto i = body.begin(); i != std::prev(headPoint); ++i) {
                     if (it->getX() == i->getX() &&

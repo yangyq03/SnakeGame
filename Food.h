@@ -7,8 +7,6 @@ class Food {
 
 public:
 
-    Food();
-
     void setPosition(const Point &pos);
 
     Point getPosition() const;
