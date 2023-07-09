@@ -1,5 +1,6 @@
 #include <conio.h>
 #include <iostream>
+#include <windows.h>
 #include "Game.h"
 
 
@@ -38,9 +39,7 @@ void Game::init() {
 }
 
 bool Game::gaming() {
-    if (isGameOver) {
-        return false;
-    }
+    if (isGameOver) return false;
     renderGame();
     processInput();
     updateGame();
@@ -67,6 +66,9 @@ void Game::renderGame() {
         }
         std::cout << std::endl;
     }
+    //下面两行用于隐藏光标
+    CONSOLE_CURSOR_INFO cursor_info = {1, 0};
+    SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursor_info);
     //用贪吃蛇的身体长度-1代表得分
     std::cout << "得分：" << body.size() - 1 << std::endl;
     //重置游戏区域
@@ -77,9 +79,7 @@ void Game::renderGame() {
 
 void Game::processInput() {
     int key = 0;
-    if (_kbhit()) {
-        key = _getch();
-    }
+    if (_kbhit()) key = _getch();
     //如果键入的字母为大写，则转成小写，方便判断
     if (key >= 'A' && key <= 'Z') key += 32;
     switch (key) {

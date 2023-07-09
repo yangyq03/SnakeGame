@@ -14,7 +14,7 @@ public:
     //初始化
     void init();
 
-    //游戏中…
+    //游戏进行中
     bool gaming();
 
     //渲染游戏界面
