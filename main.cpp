@@ -8,7 +8,7 @@ int height;
 //窗口的宽度
 int width;
 //游戏刷新时间（ms）
-const int delayTime = 500;
+const int delayTime = 1000;
 
 //游戏结束后的下一步操作
 int onPause() {

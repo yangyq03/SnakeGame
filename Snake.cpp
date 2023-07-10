@@ -96,10 +96,10 @@ bool Snake::checkCollision(int width, int height) {
     //获取贪吃蛇头部的坐标
     const Point &headPoint = body.back();
     //贪吃蛇是否撞墙的判断逻辑
-    if ((headPoint.getX() == 1 && direction == UP) ||
-        (headPoint.getY() == 1 && direction == LEFT) ||
-        (headPoint.getX() == height - 2 && direction == DOWN) ||
-        (headPoint.getY() == width - 2 && direction == RIGHT)) {
+    if ((headPoint.getX() == 0) ||
+        (headPoint.getY() == 0) ||
+        (headPoint.getX() == height - 1) ||
+        (headPoint.getY() == width - 1)) {
         return true;
     }
     return false;
